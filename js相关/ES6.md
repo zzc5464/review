@@ -147,9 +147,9 @@ class 新构造函数 extends 父级构造函数｛｝
 
 #### Object.assign(prop,{})
 
-- 对应es5中的，对象.prototype = {}
+- 将两个对象合并，会影响作为第一个参数的对象
 - 可以用来批量给实例对象的原型添加方法。
-- es6对象原型的方法无法枚举，用es5的写法就可以
+- es6对象原型的方法无法枚举，用es5的写法可以
 
 ```js
 Object.assign(Point.prototype, {
@@ -157,6 +157,43 @@ Object.assign(Point.prototype, {
   toValue(){}
 });
 //给Point对象的原型添加toSrting和toValue方法
+
+let obj  = {
+    name:'zs'
+}
+let obj2 = {
+    age:18,
+    job:function(){
+        console.log(111);
+    },
+    son:{
+        name:'ww'
+    }
+}
+let obj3 = Object.assign(obj,obj2);
+console.log(obj);
+console.log(obj2);
+obj2.son.name = 'zl';
+console.log(obj3);
+```
+
+## keys,values,entries（条目）
+
+> 遍历对象的方法
+
+- key遍历对象的键
+- values遍历对象的值
+- entries遍历对象并返回键值对数组
+
+```js
+var obj = {
+    name:'zs',
+    age:'19',
+    run:8000
+}
+console.log(Object.keys(obj));//["name", "age", "run"]
+console.log(Object.values(obj));//["zs", "19", 8000]
+console.log(Object.entries(obj));//[Array(2), Array(2), Array(2)]
 ```
 
 
@@ -242,6 +279,12 @@ console.log(zoo)  //Object {cat: "ken", dog: "lili"}
 
 ## default, rest
 
+> 不是说有这两个关键字，而是有这两个概念
+>
+> 比如default就是新加了一个概念，叫做默认值
+>
+> rest对应es5的arguments，但这个rest是真数组
+
 #### default
 
 - 实现默认值的写法
@@ -258,7 +301,7 @@ function fn(a="哈哈") {
 }
 ```
 
-#### rest
+#### rest（...）
 
 ```js
         function animals(...types){
@@ -268,3 +311,89 @@ function fn(a="哈哈") {
 ```
 
 - 就是es5的arguments
+
+## 新的API
+
+### Math对象
+
+```js
+//判断是否为整数，可以判断负整数以及字符串里面的数字。
+Math.sign()
+
+//去除一个数里面的小数部分
+Math.trunc()
+```
+
+### Array对象
+
+- Array.from(),可以将字符串、对象、伪数组转换成真数组
+- Set对象，里面的值都是唯一的。
+
+> 新出的数据结构，用来数组去重非常合适
+
+```js
+var arr = "大潮哥";
+console.log(Array.from(arr));//["大", "潮", "哥"]
+
+var r = Array.from(arr);
+console.log(new Set(r));//Set(3) {"大", "潮", "哥"}
+```
+
+- arr.find(条件)
+- arr.findIndex(条件)
+
+```js
+//返回数组第一个符合条件的结果，没有的话undefined
+console.log([1,2,3,4,5].find((n)=>n>2));//3
+//返回数组第一个符合条件的索引，没有的话undefined
+console.log([1,2,3,4,5].find((n)=>n>2));//2
+```
+
+```js
+//includes，返回数组是否有包含某一项
+console.log([1,2,3].includes(2));//true
+```
+
+## String对象
+
+- str.repeat(次数). 重复一个字符串多少次
+
+```js
+var str = "zzc";
+console.log(str.repeat(3));//zzczzczzc
+```
+
+#### 判断位置的方法
+
+> 三个方法都接收第二个参数，表示开始检索的位置
+
+- includes：是否找到了参数字符串,返回布尔值
+- startsWith ：参数字符串是否在原字符串的头部,返回布尔值
+- endsWith ：参数字符串是否在原字符串的尾部,返回布尔值
+
+```js
+console.log(str.includes('z'));//true
+console.log(str.startsWith('z'));//true
+console.log(str.endsWith('z'));//false
+//从第三个位置开始找，全是false
+console.log(str.includes('z',3));
+console.log(str.startsWith('z',3));
+console.log(str.endsWith('z',3));
+```
+
+#### 补全字符串长度
+
+> 比如某些特定的input表单要固定长度，节省用户麻烦
+
+- padStart(长度,要补全的字符串)
+
+- padEnd
+
+  ```js
+  var str = '呵呵呵';
+  console.log(str.padStart(10,'潮'));//潮潮潮潮潮潮潮呵呵呵
+  console.log(str.padStart(10,'澳门首家线上赌场上线了'));//澳门首家线上赌呵呵呵
+  console.log(str.padEnd(10,'潮'));//呵呵呵潮潮潮潮潮潮潮
+  ```
+
+  ​
