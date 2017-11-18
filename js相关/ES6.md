@@ -144,6 +144,7 @@ class 新构造函数 extends 父级构造函数｛｝
 
 - 固定写法，继承后写在构造方法（constructor）里面。
 - super()包含的是父类的实例和父类的this。
+- 父类如果有传参，要在super和子构造里面传同样的参数接收
 
 #### Object.assign(prop,{})
 
@@ -201,7 +202,7 @@ console.log(Object.entries(obj));//[Array(2), Array(2), Array(2)]
 ## arrow function
 
 ```js
-//5
+
 function(x, y) { 
     x++;
     y--;
@@ -232,6 +233,38 @@ class Animal {
 
 - 本来定时器里写函数会改变this的指向变成window
 - 但是箭头函数的this是继承来的所以这样写没问题。
+
+### 箭头函数的特色
+
+1. 匿名函数省略function的书写
+2. 当参数只有1个的时候省略（），并且默认return
+
+```js
+let arr = [1,2,3,4,5];
+//es5写法
+arr.map(function(item){
+  return item + 1 ;
+})
+/*-------------es6变身一段______*/
+arr.map((item)=>{
+  return item + 1;
+})//1.省略function加上=>
+
+/*-------------es6变身二段______*/
+arr.map( item =>{
+  return item + 1;
+})
+//1.省略function加上=>
+//2.只有一个参数省去() 
+
+/*-------------es6变身三段______*/
+arr.map( item =>{ item + 1 });
+//1.省略function加上=>
+//2.只有一个参数省去() 
+//3. 省去return
+```
+
+
 
 ## template string
 

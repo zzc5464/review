@@ -172,7 +172,7 @@ $ mongod --dbpath D:\mongo-data
 
 - 再打开一个终端窗口
 
-- 执行`mongo`命令,连接数据库服务器
+- 执行`mongo`命令,**连接数据库服务器**
 
 - mongo 命令,默认去连接本机上的 MongoDB 服务实例: `127.0.0.1:27017`    {一定要记住这个端口号}
 
@@ -215,7 +215,7 @@ $ mongod --dbpath D:\mongo-data
   - (简单了解即可) 连接到数据库之后，默认有一个变量叫做：db，终端默认把 db 赋值给了 test
 
   - ```bash
-    > use test1104
+    > use  zzc
     # switched to db admin
     ```
 
@@ -230,18 +230,19 @@ $ mongod --dbpath D:\mongo-data
 
    >  创建集合并插入`一条` 数据 : `db. 集合名称. insertOne ( 数据文档 )`
    >
-   > > db.表名.insertOne({})
+   >  > db.表名.insertOne({})
    >
    >  创建集合并插入`多条` 数据 : `db. 集合名称. insertMany ( 数据文档 )`
    >
-   > > db.表名.insertOne([{},{},{}])
+   >  > db.表名.insertOne([{},{},{}])
 
    - 如果没有集合就创建,
    - 如果有集合,就直接插入数据
 
    ```bash
    # 1. 插入一条 
-   db.news.insertOne({id:1, name:"zzc"});
+   db.news.insertOne({id:1, name:"zzc"})
+   db.news.insertOne({id:1, title:"zzc", url:"http://www.github.com/zzc5464", text:"myhub"})
    # WriteResult({ "nInserted" : 1 })   // insert 成功
 
    # 2. 插入多条  
@@ -421,7 +422,7 @@ db.test.drop()
 
 >  使用方法 : 
 >
-> db.collection(表名).insertMany([{},{}]).回调(err,数据){db.close()}
+>  db.collection(表名).insertMany([{},{}]).回调(err,数据){db.close()}
 
 ```js
   //2. 插入多条数据
