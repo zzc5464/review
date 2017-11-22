@@ -214,7 +214,7 @@ function(x, y) {
 
 - 就是省去了function的书写。
 - 简洁明了
-- 箭头函数**本身没有this指向**，它的this都是继承来的。
+- 箭头函数**本身没有this指向**，它的this都是外层函数的。
 
 ```js
 class Animal {
@@ -232,12 +232,29 @@ class Animal {
 ```
 
 - 本来定时器里写函数会改变this的指向变成window
-- 但是箭头函数的this是继承来的所以这样写没问题。
+
+- 但是箭头函数的this是外层来的所以这样写没问题。
+
+- **箭头函数没有arguments**
+
+  - ```js
+
+    var fn = function(a,b){
+      	var test= _=>{
+          console.log(arguments)
+          //拿不到
+      	}
+    }
+    fn(1,2)
+    ```
+
+  - 如果一定要拿箭头函数的实参怎么办？使用`rest`.
 
 ### 箭头函数的特色
 
 1. 匿名函数省略function的书写
-2. 当参数只有1个的时候省略（），并且默认return
+2. 当参数只有1个的时候省略（），并且只有一条return语句，可以默认return
+3. 小技巧： 当不传参数又想省略()怎么办？写个`_` 假装有一个参数要传
 
 ```js
 let arr = [1,2,3,4,5];
@@ -261,7 +278,7 @@ arr.map( item =>{
 arr.map( item =>{ item + 1 });
 //1.省略function加上=>
 //2.只有一个参数省去() 
-//3. 省去return
+//3. 只有一条return语句，可以省去return
 ```
 
 
@@ -337,13 +354,21 @@ function fn(a="哈哈") {
 #### rest（...）
 
 ```js
-        function animals(...types){
-            console.log(types)
-        }
-        animals('cat', 'dog', 'fish') //["cat", "dog", "fish"]
+var test = (a,b,c){
+  console.log(arguments)
+}
+test(1,2,3)//结果是毛都没有
+
+//箭头函数要用...来拿
+var test1 = (...arr){
+  console.log(arr)
+}
+test1(1,2,3)//拿到了
 ```
 
-- 就是es5的arguments
+- ...必须放在形参的最后一个，在函数内部可以使用...后面写的形参名拿到所有的实参
+- arguments是伪数组，...rest拿到的是真数组
+- ...rest同样可以在任何形式定义的函数中设置，不局限于箭头函数
 
 ## 新的API
 
