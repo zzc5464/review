@@ -116,6 +116,23 @@ var router = new VueRouter({
 path:'/login:id?'
 ```
 
+## 路由的重定向
+
+- 想要从`/` 路由，跳转到`/index` ，要使用VueRouter对象中的`redirect` 属性
+
+```js
+var router = new VueRouter({
+  routes:[
+    {
+      path:'/',
+      redirect:'/home'
+    }
+  ]
+})
+```
+
+
+
 ## 路由的嵌套
 
 > 比如一个用户组件，里面包含了登录和注册。但它们肯定不是同时显示，而是有账号就登录，没账号要注册。
@@ -143,9 +160,121 @@ var router = new VueRouter({
 
 >  在children里面设置的子路由不要加`/` ，直接写名字就行
 >
-> 浏览器的地址:`vue-router.html#/user/login` 
+>  浏览器的地址:`vue-router.html#/user/login` 
 
 
+
+## watch 监听数据
+
+> vue实例中的又一个属性`watch` ，可以监听数据的变化。但是只能看，并不能阻止它做的操作。
+>
+> msg用于监听数据
+>
+> 用于监听对象，监听也要写成对象
+>
+> `handler`就是监听对象的函数
+>
+> `deep`表示深层次监听，不是true的话无法监听对象
+>
+> `immediate`表示立即开始监听
+
+```js
+var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '100'
+            },
+            methods: {},
+            watch: {
+                msg(nv, ov) {
+                    console.log("监听数据");
+                },
+                person: {
+                    handler(nv, ov) {
+                        console.log('监听对象');
+                    },
+                    deep: true,
+                    immediate: true
+                }
+            }
+        })
+```
+
+### wacth监听路由的变化
+
+- 其实就是在路由的`created`钩子函数里绑定组件的某个数据
+- 通过wacth监听路由的改变，改变的时候讲路由的参数赋值给被绑定的数据
+
+```js
+ var home = {
+            template: '<h1>这是home,id是{{id}}</h1>',
+            data() {
+                return {
+                    id: 0
+                }
+            },
+            created() {
+                this.id = this.$route.params.id
+            },
+            watch: {
+                $route(nv, ov) {
+                    // 绑定路由的参数和自己本身的id数据
+                    this.id = this.$route.params.id
+                }
+            }
+        }
+```
+
+### 实际运用demo
+
+- 在vue实例中也可以直接wacth `$route`的变化
+- 那就可以通过this.$route.path来判断当前路由地址
+- 并配合判断是否为管理员，选择让不让他进入后台管理页面
+
+```js
+        var vm = new Vue({
+            router,
+            el: '#app',
+            data: {
+
+            },
+            methods: {},
+            watch: {
+                $route(nv, ov) {
+                  //有管理权限的
+                    var hasRoot = true;
+                    var path = this.$route.path;
+                    if (hasRoot && path.startsWith('/home')) {
+                        console.log('请进');
+                    } else {
+                        console.log('滚粗');
+                    }
+                }
+            }
+        })
+```
+
+## 路由的钩子函数（了解）
+
+> 官网叫做：路由守卫    --------------> exm???(黑人问号脸)
+>
+> 其实就是路由跳转之前，会触发相对应的钩子函数
+
+### 全局的钩子
+
+- 官网例子
+
+```js
+var router = new VueRouter({
+  
+})
+router.beforeEach((to, from, next) => {
+  // ...
+})
+```
+
+- 全局的就是页面中所有路由，只要一跳转就会触发
+- 很少用到
 
 
 

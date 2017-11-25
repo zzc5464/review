@@ -71,37 +71,3 @@
     </script>
 ```
 
-## watch 监听数据
-
-> vue实例中的又一个属性`watch` ，可以监听数据的变化。但是只能看，并不能阻止它做的操作。
->
-> msg用于监听数据
->
-> person用于监听对象
->
-> deep表示深层次监听，不是true的话无法监听对象
->
-> immediate表示立即开始监听
-
-```js
-var vm = new Vue({
-            el: '#app',
-            data: {
-                msg: '100'
-            },
-            methods: {},
-            watch: {
-                msg(nv, ov) {
-                    console.log("监听数据");
-                },
-                person: {
-                    handler(nv, ov) {
-                        console.log('监听对象');
-                    },
-                    deep: true,
-                    immediate: true
-                }
-            }
-        })
-```
-
