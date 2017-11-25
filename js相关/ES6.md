@@ -412,7 +412,7 @@ console.log([1,2,3,4,5].find((n)=>n>2));//2
 console.log([1,2,3].includes(2));//true
 ```
 
-## String对象
+### String对象
 
 - str.repeat(次数). 重复一个字符串多少次
 
@@ -455,3 +455,68 @@ console.log(str.endsWith('z',3));
   ```
 
   ​
+
+## Promise对象
+
+> 1. 初衷是为了解决回调地狱,是一个专门做异步的对象
+> 2. 使得代码更容易阅读
+>
+> `new Promise(function(resolve,reject){})`
+
+### promise的状态
+
+> 分为三种状态
+>
+> 1. `pendding` : 挂起，也就意味着Promise对象中的异步操作还在执行！
+> 2. `resolved` : 成功  意味着Promise对象中的异步操作已经完毕，并且成功了
+> 3.  `rejected` : 失败  意味着Promise对象中的异步操作已经完毕，但是失败了
+
+### 使用
+
+- 通过模拟成功或失败的情况看`resolve,reject`的使用
+
+```js
+var flag = Boolean(Math.round(Math.random()));//要么为true，要么为false，模拟成功与失败
+var p = new Promise(function(resolve,reject){
+  if(flag) {
+    resolve();
+  }else {
+    reject();
+  }
+});
+p.then(_=>{
+  console.log('成功');
+}).then(_=>{
+  console.log('失败');
+})
+```
+
+- resolve和reject都代表着回调函数，一个为成功，一个为失败
+- 第一个`then`会执行resolve的函数，第二个`then`会执行reject的函数
+- **模拟ajax搭配promise使用**
+
+```js
+		function ajax(url = '') {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url);
+                xhr.send(null);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.state == 200) {
+                        var data = xhr.responseText;
+                      //将data传进成功的函数里面
+                        resolve(data)
+                    } else {
+                        reject();
+                    }
+                };
+            });
+        }
+        ajax('http://www.xxx.com').then(data => {
+            console.log(data);
+        }).then(_ => {
+            console.log('失败');
+        })
+```
+
+- 在工作中一般也不用自己去封装promise，会用第三方插件提供给你的then就行了
