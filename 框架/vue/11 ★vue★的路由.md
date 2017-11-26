@@ -131,7 +131,32 @@ var router = new VueRouter({
 })
 ```
 
+## 命名路由+`router-link`
 
+> 1. 当路由的路径嵌套很多层的时候，可以指定一个`name`带代替这条路径
+> 2. 配合`<router-link :to='home'>home</router-link>`
+
+```js
+        var router = new VueRouter({
+            routes: [{
+                name: "home",
+                path: "/home/asdf/adsf/asdf/asdf/asdf/asdf/asdf/asdf/asdf/asdf",
+                component: {
+                    template: '<h1>home组件</h1>'
+                }
+            }]
+        })
+```
+
+### 不使用name
+
+> 不使用name，而是直接写路由的地址的时候`<router-link to='/home'>home</router-link>`
+>
+> 里面的to不用加`:` 直接写`/地址名` 
+
+### 使用场景
+
+> 是有`router-link` 而不去使用a有一个好处，就是切换的时候，会自动给你带上一个`router-link-active` 的类，给这个类加一些样式，可以很快的实现**导航切换**的效果
 
 ## 路由的嵌套
 

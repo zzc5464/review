@@ -52,6 +52,41 @@ const monent = require('moment');//应用场景
 
 - 常用于引入第三方库的文件，可以防止更改报错。
 
+## 结构赋值
+
+> ES6的语法糖，并不是新的功能。
+>
+> 可以更简洁的声明变量
+
+```js
+        //es5的语法
+		var obj = {
+            name: "张志潮",
+            age: 24
+        }
+
+        var name = obj.name;
+        var age = obj.age;
+		
+		//es6
+//只有变量名和属性名一直的时候，才可以简写
+var {name,age} = obj;
+```
+
+- 数组形的解析赋值
+
+```js
+var arr = [1,3,4,6];
+var [n1,n2,n3,n4] = arr;
+//n1 = 1; n2 = 3;n3 = 4; n4 = 6
+
+var arr2 = [1,2,3,4,5];
+var [...a] = arr;
+//a = 1,2,3,4,5
+```
+
+- 还有更多嵌套层次的声明方式，但是最好不要给自己找事
+
 ## class, constructor,extends, super
 
 ```js
@@ -116,10 +151,24 @@ class Point {
 }
 ```
 
-
-
 - 写在这个函数以外的方法都是原型方法，会被所有实例共享。
+
 - 如果在此方法中return了一个对象就会导致实例对象不是类的实例了
+
+####静态方法
+
+> 给构造函数添加静态方法，`Point.xxx()`
+
+```js
+class Point{
+  contructor(){}
+  //添加static关键字，就是静态方法
+  static say(){}
+}
+```
+
+
+
 
 #### extends
 
@@ -145,6 +194,26 @@ class 新构造函数 extends 父级构造函数｛｝
 - 固定写法，继承后写在构造方法（constructor）里面。
 - super()包含的是父类的实例和父类的this。
 - 父类如果有传参，要在super和子构造里面传同样的参数接收
+
+```js
+// 父传参，子要接收参数，必须使用super()。
+// 子的构造和super都要写形参
+class Fa {
+  constructor(name,money){
+    this.name = name;
+    this.money = money;
+  }
+}
+class Son extends Fa {
+  constructor(name,money){
+    super(name,money);
+    //这里才能添加自己的属性
+  }
+}
+var fa = new Fa('zs',180000)
+```
+
+
 
 #### Object.assign(prop,{})
 
@@ -469,7 +538,7 @@ console.log(str.endsWith('z',3));
 >
 > 1. `pendding` : 挂起，也就意味着Promise对象中的异步操作还在执行！
 > 2. `resolved` : 成功  意味着Promise对象中的异步操作已经完毕，并且成功了
-> 3.  `rejected` : 失败  意味着Promise对象中的异步操作已经完毕，但是失败了
+> 3. `rejected` : 失败  意味着Promise对象中的异步操作已经完毕，但是失败了
 
 ### 使用
 
