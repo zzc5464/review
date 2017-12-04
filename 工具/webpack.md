@@ -26,9 +26,23 @@
 ### 安装
 
 1. **全局安装**  `npm i webpack -g`
-2. **项目安装** `npm i webpack -SD` 
+2. **项目安装** `npm i webpack -D` （官方推荐） 
 
 - 基本语法:`webpack 要打包文件的路径  打包好文件输出的路径 `
+
+#### 项目安装
+
+> 全局安装就是在电脑的任意文件夹下都可以使用webpack打包。
+>
+> 项目安装则只有安装的那个文件下能用。
+>
+> 通过package.json的script对象，可以省去配置全局环境的步骤
+
+![](imgs/webpack项目安装.png)
+
+> 这里的脚本，可以使用`npm run 命令` 来执行。
+>
+> 相当于创建了一个临时的全局变量，使得webpack可以在全局使用
 
 ### 例子
 
@@ -196,7 +210,114 @@ plugins:[
 ]
 ```
 
+## 打包其他文件格式
 
+> webpack 默认只能打包js格式的文件，如果要打包css、less、jpg等格式的文件需要下载npm的其他包。叫做 `loader`
+>
+> 在`webpak.config.js` 中配置这些包。
+
+- 通过module参数配置路由
+
+```js
+module.exports = {
+    entry: path.join(__dirname, "src/index.js"),
+    output: {
+        path: path.join(__dirname, "dist"),
+        filename: "bundle.js"
+    },
+    //这个里面可以配置loader
+    module:{
+        //这个数组里面，放的就是一些列的规则
+        //遇到什么文件，应该用什么处理
+        //文件类型和加载器（loader）进行对应的规则！
+      rules:[]
+    }
+}
+```
+
+- 在rules中可以将匹配文件的规则和要使用的npm包进行匹配
+
+```js
+rules:[
+  {
+     //test:指的就是一个正则表达式，用来匹配文件名
+     test: /\.css$/,//表示以.css文件结尾的
+    
+     //use: 使用下面的加载器进行处理
+     use: ["style-loader", "css-loader"]
+   }
+]
+```
+
+- use里面的打包工具，是谁先用，谁就写后面的
+
+### 常用的打包工具
+
+1. 打包css
+
+需要加载: `style-loader`  `css-loader`
+
+```js
+//使用
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            }
+```
+
+2. less
+
+需要加载： `style-loader`  `css-loader` `less-loader`
+
+```js
+//使用
+		  {
+                test: /\.less$/,
+                use: ["style-loader", "css-loader", "less-loader"]
+            }
+```
+
+3. sass
+
+需要加载： `style-loader`  `css-loader` `sass-loader`
+
+```js
+//使用
+            {
+                test: /\.sass$/,
+                use: ["style-loader", "css-loader", "sass-loader"]
+            }
+```
+
+4. 图片格式处理
+
+```js
+            {
+                test: /\.(jpg|png|gif|jpeg|svg|bmp)$/,
+                use: [
+                    {
+                        //图片打包使用url-loader，会将图片转成bese64格式的字符串
+                        //但是经过测试我们发现，同一张图片的base64格式的内容和图片原来的大小相比，会增加将近1/3左右的体积
+                        //所以，简易小图片可以使用这个东西进行打包，转成base64
+                        //大图片，就不要转了，我们可以通过给这个loader传递参数告诉他图片大于多少就不转了
+                        loader: "url-loader",
+                        options: {
+                            //后面的数据的单位是B
+                            limit: 1024 * 50
+                        }
+                    }
+                ]
+            }
+```
+
+5. 字体图标处理
+
+```js
+            {
+                test: /\.(woff|woff2|eot|ttf)$/,
+                use: ["url-loader"]
+            }
+```
 
 
 

@@ -146,7 +146,7 @@ methods:{
 
 ```html
 <transition 
-    v-on:before-enter="beforeEnter"
+    v-on:before-enter="beforeEnter" // 也可以写成@before-enter的形式
     v-on:enter="enter"
     v-on:after-enter="afterEnter"
     v-on:enter-cancelled="enterCancelled"
@@ -159,7 +159,11 @@ methods:{
 </transition>
 ```
 
-- 这个方式太鸡儿麻烦了
-- 要用就你用，谢谢
-
 > 不过动画结束的钩子一般不用的
+
+## 总结
+
+- 首先要设置enter的初始位置，和leave的结束位置。
+- 将需要做动画的元素包裹到`<transition></transition>` 中
+- 要有触发动画的函数，比如mouted加载完，或者点击某个按钮
+- v-if不是必须的

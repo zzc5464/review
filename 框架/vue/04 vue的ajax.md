@@ -31,7 +31,7 @@
 ```js
 //直接通过this.$http开启ajax服务
 //这个this就是vm实例
-this.$http.get(url).then(res => {})
+//this.$http.get(url).then(res => {})
 this.$http
 .get("http://vue.studyit.io/api/delproduct/" + id)
 .then(function(res){
