@@ -16,7 +16,7 @@
 
 ```js
 var store = new Vuex.Store({});
-
+//挂载之后才能够在模板中使用$store对象
 var vm = new Vue({
   store,
 })
