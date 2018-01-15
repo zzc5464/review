@@ -56,7 +56,7 @@ Vue.component('temp',{
 ```
 
 1. 通过`Vue.component()`注册一个组件
-2. 将template的参数指定为一个选择器
+2. 将template的参数指定为一个 **选择器**
 3. 定义一个script标签，类型指定为**非脚本**就可以
 
 ```html
@@ -78,7 +78,7 @@ Vue.component('temp',{
 ### 注意事项
 
 1. 一个组件只能有一个根元素
-2. 如果需要换行最好使用ES6的模板字符串 ``
+2. 如果需要换行最好使用ES6的模板字符串 `${}`
 
 ### 在组件中使用数据
 
@@ -96,6 +96,7 @@ Vue.component('mydiv', {
               <p>爱吃{{msg}}</p>
             </div>
             `,
+  // 不同于vue实例，组件的数据放在一个函数中return出来
             data() {
                 return {
                     msg: '小槟榔'

@@ -212,7 +212,7 @@ function ajax(data){
 }
 ```
 - 通过传输一个对象来使用封装的ajax
-```
+```js
         btn.onclick = function(){
             var param = {
                 url:'xx.com',
@@ -228,7 +228,7 @@ function ajax(data){
 
 ## jQuery的ajax语法
 - $.ajax({});
-```
+```js
             $.ajax({
                 url:"xx.php",
                 //传过来的数据类型:json,html,script....
@@ -247,7 +247,7 @@ function ajax(data){
 - 详见jsonp.md
 
 ### jsonp在jq中写法
-```
+```js
     $.ajax({
         type : "get",
         async: false,
@@ -265,3 +265,18 @@ function ajax(data){
         }
     });
 ```
+
+## Ajax全局事件
+
+![](md-imgs/ajax全局事件.png)
+
+- `ajaxStart`和`ajaxEnd` 都只会调用一次，分别是**请求队列**的头和尾
+- 每一个ajax发送前都会触发`ajaxSend`
+- 每一个ajax发送完成后都会触发`ajaxSuccess/ajaxError` 和`ajaxComplete`
+
+#### 注册全局事件的写法
+
+```js
+$(document).ajaxStart()
+```
+

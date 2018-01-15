@@ -109,18 +109,15 @@ axios({
 - 下面的代码是处理对象类型的data变成字符串data
 
 ```js
-axios.interceptors.request.use(function(config) {
-            // Do something before request is sent
-            // console.log("拦截器方法被调用了")
-            // console.log(config);
-    if (typeof config.data == "object") {
-      var str = "";
-      for (var k in config.data) {
-        str += k + "=" + config.data[k] + "&"
-      }
-      config.data = str;
-	}
-	return config;
-});
+axios.interceptors.request.use(config=>{
+  if(typeof config.data === 'object') { // 判断如果传过来的是一个对象
+    let str = '';
+    for(let k in config.data) {
+      str += k + '=' + config.dat[k] + '&'  // 拼接字符串的方式重新赋值
+    }
+    config.data = str;
+  }
+  return config;
+})
 ```
 

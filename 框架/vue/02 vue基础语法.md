@@ -62,6 +62,8 @@
 > 简写 ： `:+属性名` 
 >
 > `v-bind='class'`  ==> `:class` 
+>
+> 就把带有冒号的当做是动态绑定的属性
 
 ```html
 
@@ -276,13 +278,13 @@ var app3 = new Vue({
 - 用v-on:事件声明，里面的值就是事件触发会调用的函数
 - 函数要在`methods`中定义
 
-```
-# html
+```js
+// html
 <div id="app-5">
   <p>{{ message }}</p>
   <button v-on:click="reverseMessage">变成数组</button>
 </div>
-#js
+// js
 var app5 = new Vue({
   el: '#app-5',
   data: {
@@ -290,7 +292,7 @@ var app5 = new Vue({
   },
   methods: {
   //es6写法，省略function
-    reverseMessage:  () {
+    reverseMessage () {
       this.message = this.message.split('');
     }
   }
@@ -346,7 +348,7 @@ var app5 = new Vue({
 
 - 默认的计算属性是单项绑定的
 - 有缓存，多次调用相同结果只会返回第一次的结果。相比于methods每次调用都要全部执行一次，效率更高。
-- 在页面中不需要写 （）来调用
+- 在页面中不需要写 `（）`来调用
 
 #### 计算属性实现双向数据绑定
 
@@ -391,7 +393,7 @@ computed: {
 >
 > 数据和展示元素，更改任意一方，会对双方都造成影响
 
-```
+```html
 <body>
     <div id="app">
         <input type="text" v-model="msg">

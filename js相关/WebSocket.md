@@ -15,6 +15,8 @@
 ## 用法
 
 ```js
+// new 一个webSocket对象，参数为wesocket协议
+// wss协议表示安全的webSocket协议
 var socket = new WebSocket('ws://localhost:8080'); 
 
 // 打开Socket 
@@ -39,8 +41,20 @@ socket.onopen = function(event) {
 
 ```
 
-- 参数为URL，ws表示`WebSocket`协议。`onopen`、`onclose`和`onmessage`方法把事件连接到`Socket`实例上。每个方法都提供了一个事件，以表示Socket的状态。
-- onmessage事件提供了一个data属性，它可以包含消息的Body部分。消息的Body部分必须是一个字符串，可以进行序列化/反序列化操作，以便传递更多的数据。
+1. 实例化webSocket对象，传入ws协议的地址参数
+2. 其他的on事件都是为发送的信息注册处理函数
+3. 采用消息的方式触发，速度更快，用户体验更好
+
+## webSocket协议
+
+> 支持服务器与浏览器互相推送消息的协议
+
+- 与http协议的异同
+  - http是单向推送
+  - 两个都是基于TCP协议的
+- 为什么要出ws/wss协议？
+  - http数据包头部往往非常大，真正需要的数据可能只有几k
+  - 单向获取数据只能通过polling，设定一个循环的时间向服务器拉数据，老的资源还会再拉一次才展示新资源造成带宽浪费
 
 ## 不支持的情况
 
@@ -54,9 +68,9 @@ socket.onopen = function(event) {
 >
 > 由于目前的IE等浏览器不支持WebSocket，要提供WebSocket的事件处理、返回传输、在服务器端使用一个统一的API，那么该怎么办呢？幸运的是，Guillermo Rauch创建了一个Socket.IO技术。
 
-## 下载socket
+## 下载socket.io
 
-
+[下载地址](https://github.com/socketio/socket.io.git)
 
 - 引包
 
@@ -93,3 +107,10 @@ function sendMessageToServer(message) {
 
 ```
 
+1. new 一个socket实例，调用`socket`链接服务器
+2. 添加链接监听`socket.on` 参数为connect
+3. 添加信息监听`socket.on` 参数为message
+4. 添加关闭监听`socket.on` 参数为disconnect
+5. 通过`socket.send` 发送消息给服务器
+
+> 这个库的核心事件就是`on` 围绕着消息做事件触发判断。
