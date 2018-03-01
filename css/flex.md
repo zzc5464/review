@@ -21,7 +21,7 @@
 
 - `flex-direction` 
   - `row`  横横的排 --> 左浮
-  -  `row-reverse`  横横的反排 --> 右浮
+  - `row-reverse`  横横的反排 --> 右浮
   - `column `  竖竖的排 --> 正常的块级元素布局
   - `column-reverse`  竖竖的反排 --> 倒着的块级元素布局
 
