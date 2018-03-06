@@ -29,45 +29,30 @@
     </script>
 ```
 
-## 插槽
+## 动态绑定组件 `:is`
 
-> 组件定义好后会被渲染加载到页面上，所以在里面写标签是会被整没的。
+> 如果要在一个区域，根据不同条件展示不同的组件。
 >
-> 有些时候需要在自定义标签里面写标签咋办？
->
-> 通过`slot` 
+> 可以通过`<component :is='变量'></component>` ，来展示。
 
-```html
-		<my-div>
-            <p>我有吗</p>
-        </my-div>
-	<script type='text/template' id='tpl'>
-        <div>
-            <slot></slot>
-            <p>我在中间</p>
-        </div>
-    </script>
-```
-
-- slot放在哪，写在里面的标签就会在组件的哪边。
-
-### 带name的插槽
-
-- 要插入的标签通过slot属性指定插槽的位置
-- slot加上一个name属性代表是谁的插槽
-
-```html
-		<my-div>
-            <p>我也是插槽</p>
-            <p slot='first'>我有吗</p>
-        </my-div>
-
-	 <script type='text/template' id='tpl'>
-        <div>
-            <slot></slot>
-            <p>我在中间</p>
-            <slot name='first'></slot>
-        </div>
-    </script>
+```js
+let vm = new Vue({
+    el:'#app',
+    data:{
+        see:'index',  // 展示子组件index
+    },
+    components:{
+     // 多个子组件
+        home:{
+            template:'<div>home组件</div>'
+        },
+        index:{
+            template:'<div>index组件</div>'
+        },
+        zzc:{
+            template:'<div>zzc组件</div>'
+        }
+    }
+})
 ```
 
