@@ -10,11 +10,15 @@
 
 > vue中的路由效果，通过不同的hash值，展示不同的组件
 
-- 安装
+
+
+- 安装(基于webpack单页面文件时引入)
 
 `npm i vue-router -S`
 
-- 引入
+- 普通项目中引入
+
+`<script src='https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js'></script>`
 
 `<script src="./node_modules/vue-router/dist/vue-router.js"></script>`
 
@@ -36,12 +40,12 @@
 
 2. 通过VueRouter对象将路由和地址一一对应
    - 通过RouterVue对象中的routes属性，是一个数组
-   - 数组中的每个对象有`path`指定路由 和 `component `指定组件
+   - 数组中的每个对象由`path`指定路由 和 `component `指定组件
 
 
 ```js
 var router = new VueRouter({
-  router:[
+  routes:[
     {
       path:'/login',
       component:login//外面定义的组件
@@ -77,23 +81,43 @@ var vm = new Vue({
 
 ### 通过`?key=value`传参的形式
 
-- 就是 `vue-router.html#/login?id=19` 中 `#/login` 后面的内容就是路由的参数
+> 工作中常见的需求,根据不同的地址栏参数，在同一个页面渲染对应参数的数据。
+>
+> 单页面应用是不进行页面跳转的,所以就模拟出来键值对传参的形式。
+>
+> 如 :  `router.html#/a?id=19` 中 `#/login` 后面的内容就是路由的参数
+
+```html
+<!-- 比如这个id是在一个列表中循环出来的,通过每一个不同的id去查看详情 -->
+<!-- 点击之后地址变成了router.html#/a?id=1 -->
+<router-link :to="/a?id=1">a</router-link>
+<!-- 点击按钮可以看到当前的id -->
+<button @click='showDetail'>显示id</button>
+
+<!-- data:{id:1} -->
+```
+
 - 通过`?k=v`形式的传参可以通过`this.$route.query`拿到键值对
 
 ```js
-var login = {
-  template:'#login',
-  created(){
-    //假如传的是#/login?id=1
-    console.log(this.$route.query)//{id:1}
+var detail = {
+  template:'#app',
+  methods:{
+    showDetail(){
+    	console.log(this.$route.query)//{id:1}
+    }
   }
 }
 ```
 
+> 总的来说，跟以前写个方法获取地址栏参数一毛一样
+>
+> 就是能够拿到地址栏?xx=xx&xx=xx后面的值
+
 ### 动态路由
 
 - 不使用键值对形式传参，而是直接写`#/login/xxx`如何设置路由？
-- 在配置路由的时候，给path路径后面加上:xxx的形式，相当于参数名
+- 在配置路由的时候，给path路径后面加上`:name`的形式，相当于参数名
 - 这样设置的路由叫做动态路由，可以通过this.$route.params获取
 
 ```js
@@ -101,12 +125,12 @@ var router = new VueRouter({
   routes:[
     //就是给路径后面加了一个:,参数名随意指定
     //这里指定为id，那么this.$route.params获取的也是id
-    path:'/login:id'
+    path:'/a:id'
   ]
 })
 ```
 
-> 这样写的话，页面的url地址就要写成`#/login/1` ，这种/后面直接带值的类型
+> 这样写的话，页面的url地址就要写成`#/a/1` ，这种/后面直接带值的类型
 >
 > this.$route.params获取的时候,结果为`{id:1}`
 >

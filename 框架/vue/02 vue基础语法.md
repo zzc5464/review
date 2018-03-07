@@ -1,5 +1,30 @@
 # vue基础语法
 
+## 基本安装
+
+### [直接用引入](https://cn.vuejs.org/v2/guide/installation.html#直接用-lt-script-gt-引入)
+
+```js
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+```
+
+###  开发大型应用
+
+- vue-cli
+
+```bash
+# 全局安装 vue-cli
+$ npm install --global vue-cli
+# 创建一个基于 webpack 模板的新项目
+$ vue init webpack my-project
+# 安装依赖，走你
+$ cd my-project
+$ npm install
+$ npm run dev
+```
+
+
+
 ## 绑定信息
 
 - Mustache(双大括号包裹)------>`{{}}`

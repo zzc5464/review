@@ -41,12 +41,12 @@
 
 ## less注释
 
+- 可以使用 `/**/` `//` 两种注释
+
 ```less
 /*这个注释是CSS中的注释，因此会编译到css中*/
 //这个注释,CSS中用不了，因此不会编译出来。
 ```
-
-
 
 ## less变量
 
@@ -54,15 +54,15 @@
 
 ```less
 @charset "UTF-8";
-@wjs_color:#e92322;
+@main_color:#e92322;
 body {
-  background-color: @wjs_color;
+  background-color: @main_color;
 }
 
 div {
   width: 400px;
   height: 400px;
-  border: 1px solid @wjs_color;
+  border: 1px solid @main_color;
 }
 ```
 
@@ -117,7 +117,6 @@ div {
 ```less
 .btn_border(@width) {
   border: @width solid #000;
-
 }
 
 .btn {
