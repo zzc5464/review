@@ -90,9 +90,10 @@
 >
 > 一般会配合animate.css做动画
 >
-> 下载animate.css	`npm i animate.css -S`
+> 下载animate.css
 >
-> `<link rel="stylesheet" href="./node_modules/animate.css/animate.css">`
+> 1.  `npm i animate.css -S`  import导入
+> 2. `<link rel="stylesheet" href="./node_modules/animate.css/animate.css">`
 
 ```html
         <transition enter-active-class="animated lightSpeedIn"

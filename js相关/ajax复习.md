@@ -163,7 +163,7 @@ data.php内容
   2. 配置open参数，包含：get/post、url、同/异步
   3. 配置send参数
   4. 回调参数的处理，成功/失败
-```
+```JS
 function ajax(data){
     //第一步：创建xhr对象
     var xhr = null;
