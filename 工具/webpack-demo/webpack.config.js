@@ -1,13 +1,14 @@
 const path = require('path');
 const UglifyPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const webpack = require('webpack')
+const webpack = require('webpack');
+const Mock = require('./src/mock/index');
 function resolve(pathName) {
   return path.resolve(__dirname,pathName)
 }
+let publicPath = '/assets/'
 module.exports = {
   mode: 'development',
   entry: {
@@ -16,10 +17,11 @@ module.exports = {
   },
   output: {
     path: resolve('dist'),
-    filename: '[name].[hash:8].js'
+    filename: '[name].[hash:8].js',
+    publicPath,
   },
   module: {
-    rules: [
+    rules: [ // 解析模块 loader 相关
       {
         test: /\.js?/,
         include: [
@@ -38,8 +40,6 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // you can specify a publicPath here
-              // by default it use publicPath in webpackOptions.output
               publicPath: resolve('dist')
             }
           },
@@ -55,8 +55,6 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // you can specify a publicPath here
-              // by default it use publicPath in webpackOptions.output
               publicPath: resolve('dist')
             },
             
@@ -64,7 +62,6 @@ module.exports = {
           'css-loader', 
           'less-loader',
         ],
-        // 因为这个插件需要干涉模块转换的内容，所以需要使用它对应的 loader
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -77,16 +74,15 @@ module.exports = {
       },
     ]
   },
-  resolve: {
+  resolve: { // 路径相关
     alias: {
       '@': resolve('src'),
       utils: resolve('src/utils'),
     },
     extensions: ['.less','.css','.js','.vue']
   },
-  plugins: [
+  plugins: [ // 插件相关
     new UglifyPlugin(),
-    // new ExtractTextPlugin('[name].[hash:8].css'),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: 'template.html', // 配置文件模板
@@ -103,5 +99,18 @@ module.exports = {
       lodash: ['lodash']
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ]
+  ],
+  devServer:{
+    publicPath ,
+    port: 9000,
+    before(app) {
+      Mock(app);
+    },
+    // proxy: {
+    //   '/api': {
+    //     target: "http://localhost:3000", 
+    //     pathRewrite: { '^/api': '' }, 
+    //   },
+    // }
+  }
 }
