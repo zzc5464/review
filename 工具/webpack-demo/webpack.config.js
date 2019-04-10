@@ -71,7 +71,32 @@ module.exports = {
           options: {},
         }, ],
       },
+      {
+        test: /\.md$/,
+        use: [
+          'html-loader',
+          {
+            loader: path.resolve('./loaders/md-loader.js'),
+            options: {},
+          }
+        ],
+      },
+      {
+        test: /\.zzc$/,
+        use: [
+          {
+            loader: 'zzc-loader',
+            options: {
+              type: '-'
+            }
+          }
+        ],
+      },
+
     ]
+  },
+  resolveLoader: {
+    modules: ['node_modules',resolve('./loaders/')]
   },
   resolve: { // 路径相关
     alias: {
