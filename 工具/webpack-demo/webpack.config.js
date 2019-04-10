@@ -5,10 +5,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require('webpack');
 const Mock = require('./src/mock/index');
+
 function resolve(pathName) {
-  return path.resolve(__dirname,pathName)
+  return path.resolve(__dirname, pathName)
 }
-let publicPath = '/assets/'
+let publicPath = '/'
 module.exports = {
   mode: 'development',
   entry: {
@@ -18,7 +19,8 @@ module.exports = {
   output: {
     path: resolve('dist'),
     filename: '[name].[hash:8].js',
-    publicPath,
+    // publicPath,
+    chunkFilename: '[name].[hash:8].js',
   },
   module: {
     rules: [ // 解析模块 loader 相关
@@ -51,26 +53,23 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [
-          {
+        use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: resolve('dist')
             },
-            
+
           },
-          'css-loader', 
+          'css-loader',
           'less-loader',
         ],
       },
       {
         test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {},
-          },
-        ],
+        use: [{
+          loader: 'file-loader',
+          options: {},
+        }, ],
       },
     ]
   },
@@ -79,7 +78,7 @@ module.exports = {
       '@': resolve('src'),
       utils: resolve('src/utils'),
     },
-    extensions: ['.less','.css','.js','.vue']
+    extensions: ['.less', '.css', '.js', '.vue']
   },
   plugins: [ // 插件相关
     new UglifyPlugin(),
@@ -92,25 +91,41 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new CopyWebpackPlugin([
-      { from: 'src/copy/1.txt', to: 'build/1.txt', },
-    ]),
+    new CopyWebpackPlugin([{
+      from: 'src/copy/1.txt',
+      to: 'copy/1.txt',
+    }, ]),
     new webpack.ProvidePlugin({
       lodash: ['lodash']
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ],
-  devServer:{
-    publicPath ,
+  devServer: {
+    publicPath,
     port: 9000,
     before(app) {
       Mock(app);
     },
+    hot: true,
     // proxy: {
     //   '/api': {
     //     target: "http://localhost:3000", 
     //     pathRewrite: { '^/api': '' }, 
     //   },
     // }
+  },
+  optimization: {
+    splitChunks: {
+      // chunks: 'all', // 推荐 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+      // 显式指定
+      cacheGroups: {
+        libs: {
+          chunks: "initial", // 表示从哪些块中抽取公共模块 all 所有 initial静态 async异步块
+          test: /jquery|axios/,
+          name: "libs", // 使用 [name]文件名 作为入口打包成公共部分
+          enforce: true, // 始终为此缓存组创建块
+        },
+      }
+    }
   }
 }
