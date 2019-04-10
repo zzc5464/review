@@ -59,6 +59,7 @@ $ git status -s
 
 $ git add
 $ git add --all
+git add .
 //添加本地暂存（托管）文件 add+文件名
 //可以将一个/所有没有被跟踪的文件添加到跟踪列表
 ```

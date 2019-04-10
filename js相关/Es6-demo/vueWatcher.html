@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let uid = 0;
+
+    class Watcher {
+      constructor() {
+        this.id = ++uid;
+      }
+
+      update() { // 更新内部数据
+        console.log('watch' + this.id + ' update');
+        queueWatcher(this);
+      }
+
+      run() { // 更新视图
+        console.log('watch' + this.id + 'run 视图更新啦～');
+      }
+    }
+
+    let callbacks = []; // 回调队列
+    let pending = false; // 标记当前回调有没有执行
+
+    let has = {}; // 作为当前 watcher 是否存在的标识。
+    let queue = []; // 事件队列
+    let waiting = false; // 标记是否已经向 nextTick 传递了 flushSchedulerQueue 方法
+    function queueWatcher(watcher) { // 将当前 watcher 推入事件栈
+      const id = watcher.id;
+      if (has[id] == null) { // 没有 id 才 push
+        has[id] = true; // 将当前 id 保留下来，而不是每次都去 queue 过滤，提高效率
+        queue.push(watcher);
+
+        if (!waiting) {
+          waiting = true;
+          nextTick(flushSchedulerQueue);
+        }
+      }
+    }
+
+    function nextTick(cb) { // 下一个调用栈
+      callbacks.push(cb);
+      if (!pending) {
+        pending = true;
+        setTimeout(flushCallbacks, 0); // 将队列放到最后
+      }
+    }
+
+    function flushCallbacks() { // 执行 callbacks 内的所有方法
+      pending = false;
+      const copies = callbacks.slice(0);
+      callbacks.length = 0;
+      for (let i = 0; i < copies.length; i++) {
+        copies[i]();
+      }
+    }
+
+
+
+    function flushSchedulerQueue() { // 生成调用队列
+      let watcher, id;
+      for (index = 0; index < queue.length; index++) {
+        watcher = queue[index]
+        id = watcher.id;
+        has[id] = null;
+        watcher.run();
+      }
+
+      waiting = false;
+    }
+
+
+
+    (function () {
+      let watch1 = new Watcher();
+      let watch2 = new Watcher();
+
+      watch1.update();
+      watch1.update();
+      watch2.update();
+    })();
+  </script>
+</body>
+
+</html>

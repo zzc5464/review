@@ -1,4 +1,4 @@
-# 一些可能用到的东西
+# 零散知识点
 
 ## ref和$refs
 
@@ -128,4 +128,51 @@ let vm = new Vue({
 </keep-alive>
 
 ```
+
+
+
+## `.sync`
+
+> 有时要对父子组件的 `prop` 进行双向绑定，但是用 `v-model` 可能会造成维护上的困难。
+>
+> 比如不知道这事件是从哪里改的值
+>
+> 非常适合用于 `modal` 类组件中
+
+```vue
+<A-Modal :show.sync='show'>
+```
+
+- 组件内部
+
+```js
+props: {
+    show: {
+        default: false,
+        type: Boolean,
+    }
+},
+// 修改 props 的值
+this.$emit('update:show',false)
+```
+
+
+
+## 组件中使用`v-model`
+
+> 是`.sync` 的双向数据绑定版
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

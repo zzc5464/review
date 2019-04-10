@@ -1,6 +1,6 @@
-#基于element-ui封装自己的组件
+# 基于element-ui封装自己的组件
 
-##封装`el-select`组件
+## 封装`el-select`组件
 
 > 场景: 多页面开发，没有使用webpack打包工具。
 >
@@ -51,7 +51,7 @@ Vue.component('zzc-level', {
 
 ###完整封装
 
-```js
+```vue
 Vue.component('zzc-level', {
     template: `
     <div class='level_box'>

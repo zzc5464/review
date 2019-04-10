@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class Person {
+      constructor(name) {
+        this.name = name
+      }
+      sayName() {
+        console.log(this.name);
+      }
+    }
+    const p = new Person('z')
+    p.sayName()
+    console.log(p.hasOwnProperty('name'));
+    console.log(p.hasOwnProperty('sayName'));
+    console.log(p.__proto__);
+    console.log(Person.prototype === p.__proto__);
+    Object.getPrototypeOf(p).say = function(){ return 'hello' }
+    console.log(p.say());
+    
+    
+    
+  </script>
+</body>
+</html>
