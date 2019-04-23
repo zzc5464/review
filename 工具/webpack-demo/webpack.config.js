@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require('webpack');
 const Mock = require('./src/mock/index');
-
+const FileListPlugin = require('./plugins/three.js')
 function resolve(pathName) {
   return path.resolve(__dirname, pathName)
 }
@@ -123,7 +123,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       lodash: ['lodash']
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new FileListPlugin(),
   ],
   devServer: {
     publicPath,

@@ -170,20 +170,37 @@ console.log(r);
 
 - 用构造函数调用bind是无效的
 
-## 箭头函数
+## 实现 apply、call
 
-- es6新出的定义函数方法
+> 就是将传入的第一个参数作为函数，将之后的参数传入进行调用
+>
+> 获取结果后删除第一个参数
 
 ```js
-//5
-function(x, y) { 
-    x++;
-    y--;
-    return x + y;
+Function.prototype.myCall=function(context=window){
+      context.fn = this;//此处this是指调用myCall的function
+      let args=[...arguments].slice(1); // 获取除所有实参
+      let result=content.fn(...args)
+      //将this指向销毁
+      delete context.fn;
+      return result;
 }
-//6
-(x, y) => {x++; y--; return x+y}
+
+// context.fn 相当于slice
+[].prototype.slice.myCall(newArr,1);
+
+Function.prototype.myApply = function(context=window) {
+    context.fn = this;
+    let result;
+    if(arguments[1]){
+        result=context.fn(...arguments[1])
+    }else{
+        result=context.fn()
+    }
+    //将this指向销毁
+    delete context.fn;
+    return result;
+}
+
 ```
 
-- 箭头函数本身是没有this的，通过继承而来。
-- 外层包裹的this是谁它就是谁
